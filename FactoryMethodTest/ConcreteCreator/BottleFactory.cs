@@ -1,0 +1,34 @@
+﻿using FactoryMethod.ConcreteProduct;
+using FactoryMethod.Creator;
+using FactoryMethod.Product;
+
+namespace FactoryMethod.ConcreteCreator
+{
+    public class BottleFactory : SodaFactory
+    {
+        private string _containerSize;
+        private string _sodaFlavor;
+        private int _sodaQuantity;
+        private int _sodaValue;
+
+        public BottleFactory(string containerSize,
+                             string sodaFlavor,
+                             int sodaQuantity,
+                             int sodaValue)
+        {
+            this._containerSize = containerSize;
+            this._sodaFlavor = sodaFlavor;
+            this._sodaQuantity = sodaQuantity;
+            this._sodaValue = sodaValue;
+        }
+
+        public override Soda RequestSoda()
+        {
+            return new Bottle(_containerSize,
+                              _sodaFlavor,
+                              _sodaQuantity,
+                              _sodaValue);
+        }
+    }
+
+}
