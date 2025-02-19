@@ -12,7 +12,7 @@ namespace FactoryMethod.ConcreteCreator
         private int _sodaQuantity;
         private int _sodaValue;
 
-        public CanFactory(string containerSize, string sodaFlavor, int sodaQuantity, int sodaValue) // Constructor
+        public CanFactory(string containerSize, string sodaFlavor, int sodaQuantity, int sodaValue)
         {
             this._containerSize = containerSize;
             this._sodaFlavor = sodaFlavor;

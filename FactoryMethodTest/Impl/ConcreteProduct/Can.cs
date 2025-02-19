@@ -2,7 +2,7 @@
 
 namespace FactoryMethod.ConcreteProduct
 {
-    public class Bottle : Soda
+    public class Can : Soda
     {
         private readonly string _containerType;
         private string _containerSize;
@@ -11,20 +11,16 @@ namespace FactoryMethod.ConcreteProduct
         private int _sodaValue;
         private int _totalValue;
 
-        public Bottle(string containerSize,
-                      string sodaFlavor,
-                      int sodaQuantity,
-                      int sodaValue)
+        public Can(string containerSize, string sodaFlavor, int sodaQuantity, int sodaValue)
         {
-            this._containerType = "Bottle";
+            this._containerType = "Can";
             this._containerSize = containerSize;
             this._sodaFlavor = sodaFlavor;
             this._sodaQuantity = sodaQuantity;
-            this._sodaValue = 10;
+            this._sodaValue = 5;
             this._totalValue = _sodaValue * sodaQuantity;
         }
 
-        // Polymorphism: declaring overrides
         public override string ContainerType
         {
             get { return _containerType; }
@@ -54,6 +50,4 @@ namespace FactoryMethod.ConcreteProduct
             set { _totalValue = value; }
         }
     }
-
 }
-

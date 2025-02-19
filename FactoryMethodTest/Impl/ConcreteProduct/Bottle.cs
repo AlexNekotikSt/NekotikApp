@@ -2,7 +2,7 @@
 
 namespace FactoryMethod.ConcreteProduct
 {
-    public class Can : Soda
+    public class Bottle : Soda
     {
         private readonly string _containerType;
         private string _containerSize;
@@ -11,19 +11,19 @@ namespace FactoryMethod.ConcreteProduct
         private int _sodaValue;
         private int _totalValue;
 
-        // Constructor
-        // Since the container type is fixed, it is not passed as a parameter
-        public Can(string containerSize, string sodaFlavor, int sodaQuantity, int sodaValue)
+        public Bottle(string containerSize,
+                      string sodaFlavor,
+                      int sodaQuantity,
+                      int sodaValue)
         {
-            this._containerType = "Can"; // container size and flavor will receive values from the constructor
+            this._containerType = "Bottle";
             this._containerSize = containerSize;
             this._sodaFlavor = sodaFlavor;
             this._sodaQuantity = sodaQuantity;
-            this._sodaValue = 5;
+            this._sodaValue = 10;
             this._totalValue = _sodaValue * sodaQuantity;
         }
 
-        // Polymorphism: declaring overrides
         public override string ContainerType
         {
             get { return _containerType; }
@@ -53,4 +53,6 @@ namespace FactoryMethod.ConcreteProduct
             set { _totalValue = value; }
         }
     }
+
 }
+
