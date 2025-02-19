@@ -1,8 +1,7 @@
 ﻿// criando o produto 
 // vai definir a interface dos objetos que o metodo de fabrica cria 
 
-
-namespace FactoryMethod.Product
+namespace Domain.Product
 {
     public abstract class Soda
     {

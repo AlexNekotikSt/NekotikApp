@@ -1,7 +1,6 @@
-﻿using FactoryMethod.Creator;
-using FactoryMethod.ConcreteCreator;
-using FactoryMethod.Product;
-using System;
+﻿using Domain.Product;
+using FactoryMethod.Core.Creator;
+using FactoryMethod.Impl.ConcreteCreator;
 
 namespace FactoryMethod
 {

@@ -1,11 +1,9 @@
-﻿
-using FactoryMethod.Product;
+﻿using Domain.Product;
 
-namespace FactoryMethod.Creator
+namespace FactoryMethod.Core.Creator
 {
     public abstract class SodaFactory
     {
         public abstract Soda RequestSoda();
     }
-
 }

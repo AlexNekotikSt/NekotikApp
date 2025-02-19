@@ -1,8 +1,7 @@
-﻿using FactoryMethod.ConcreteProduct;
-using FactoryMethod.Creator;
-using FactoryMethod.Product;
+﻿using Domain.Product;
+using FactoryMethod.Core.Creator;
 
-namespace FactoryMethod.ConcreteCreator
+namespace FactoryMethod.Impl.ConcreteCreator
 {
     public class BottleFactory : SodaFactory
     {
@@ -16,10 +15,10 @@ namespace FactoryMethod.ConcreteCreator
                              int sodaQuantity,
                              int sodaValue)
         {
-            this._containerSize = containerSize;
-            this._sodaFlavor = sodaFlavor;
-            this._sodaQuantity = sodaQuantity;
-            this._sodaValue = sodaValue;
+            _containerSize = containerSize;
+            _sodaFlavor = sodaFlavor;
+            _sodaQuantity = sodaQuantity;
+            _sodaValue = sodaValue;
         }
 
         public override Soda RequestSoda()
