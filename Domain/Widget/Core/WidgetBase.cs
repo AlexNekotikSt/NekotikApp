@@ -1,6 +1,6 @@
 ﻿namespace Domain.Widget
 {
-    public abstract class WidgetBase
+    public abstract class WidgetBase : ICloneable
     {
         public int Id { get; set; }
 
@@ -11,5 +11,10 @@
         public int Order { get; set; }
 
         public abstract string GetValue();
+
+        public virtual object Clone()
+        {
+            return MemberwiseClone();
+        }
     }
 }
