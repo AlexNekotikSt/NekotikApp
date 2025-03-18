@@ -23,6 +23,11 @@ namespace Strategy.Strategies
 
         public async Task Save(IEnumerable<WidgetBase> widgets)
         {
+            if(File.Exists(_filePath))
+            {
+                File.Delete(_filePath);
+            }
+
             using Stream stream = File.OpenWrite(_filePath);
             XmlSerializer formatter = new(typeof(List<WidgetBase>), new XmlRootAttribute("Widgets"));
             formatter.Serialize(stream, widgets.ToList());
