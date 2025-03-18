@@ -1,5 +1,12 @@
-﻿namespace Domain.Widget
+﻿using System.Xml.Serialization;
+
+namespace Domain.Widget
 {
+    [XmlInclude(typeof(TextWidget))]
+    [XmlInclude(typeof(FileWidget))]
+    [XmlInclude(typeof(NumericWidget))]
+    [XmlInclude(typeof(PictureWidget))]
+    [XmlInclude(typeof(DateWidget))]
     public abstract class WidgetBase : ICloneable
     {
         public int Id { get; set; }
