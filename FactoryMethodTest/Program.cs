@@ -25,7 +25,7 @@ namespace FactoryMethod
 
         private static void ExampleOfInterpreter()
         {
-            var input = "Title contains 'invoice' OR Amount > 100 OR Name contains 'Salary')";
+            var input = "Title contains 'invoice' OR Amount > 100 OR Name contains 'Salary'";
             var tokens = FilterTokenizer.Tokenize(input);
             var parser = new FilterParser(tokens);
             var expression = parser.ParseExpression();
