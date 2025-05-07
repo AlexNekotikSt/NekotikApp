@@ -3,6 +3,7 @@ using Command.Commands;
 using Domain;
 using Domain.Widget;
 using FactoryMethod.Core;
+using Iterator;
 using Strategy;
 using Strategy.Strategies;
 
@@ -14,7 +15,25 @@ namespace FactoryMethod
         {
             //ExampleOfFactoryAndPrototype();
             //await ExampleOfStrategyMethod();
-            await ExampleOfCommand();
+            //await ExampleOfCommand();
+            ExampleOfIterator();
+        }
+
+        private static void ExampleOfIterator()
+        {
+            var project = new Project("Demo Project");
+
+            // Add widgets to the project
+            project.AddToColumn1(new TextWidget { Id = 1, Name = "Text Widget 1" });
+            project.AddToColumn2(new FileWidget { Id = 2, Name = "File Widget 1" });
+            project.AddToColumn3(new NumericWidget { Id = 3, Name = "Numeric Widget 1" });
+            project.AddToColumn1(new PictureWidget { Id = 4, Name = "Picture Widget 1" });
+
+
+            foreach(var widget in project)
+            {
+                Console.WriteLine($"Widget: {widget.Name}, Type: {widget.GetType().Name}");
+            }
         }
 
         private static async Task ExampleOfCommand()
