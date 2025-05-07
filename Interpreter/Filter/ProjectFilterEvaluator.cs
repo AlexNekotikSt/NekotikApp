@@ -8,15 +8,14 @@ namespace Interpreter
         public static List<WidgetBase> FilterWidgets(Project project, IExpression expression)
         {
             var result = new List<WidgetBase>();
-            var iterator = project.GetIterator();
 
-            while (iterator.MoveNext())
+
+            foreach(var widget in project)
             {
-                var current = iterator.Current;
-                var context = new Dictionary<string, WidgetBase> { { current.Name, current } };
+                var context = new Dictionary<string, WidgetBase> { { widget.Name, widget } };
                 if (expression.Interpret(context))
                 {
-                    result.Add(current);
+                    result.Add(widget);
                 }
             }
 
