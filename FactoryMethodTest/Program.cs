@@ -3,9 +3,12 @@ using Command.Commands;
 using Domain;
 using Domain.Widget;
 using FactoryMethod.Core;
+using Interpreter;
+using Interpreter.Parser;
 using Iterator;
 using Strategy;
 using Strategy.Strategies;
+using System.Linq.Expressions;
 
 namespace FactoryMethod
 {
@@ -16,7 +19,33 @@ namespace FactoryMethod
             //ExampleOfFactoryAndPrototype();
             //await ExampleOfStrategyMethod();
             //await ExampleOfCommand();
-            ExampleOfIterator();
+            //ExampleOfIterator();
+            ExampleOfInterpreter();
+        }
+
+        private static void ExampleOfInterpreter()
+        {
+            var input = "Title contains 'invoice' OR Amount > 100 OR Name contains 'Salary')";
+            var tokens = FilterTokenizer.Tokenize(input);
+            var parser = new FilterParser(tokens);
+            var expression = parser.ParseExpression();
+
+            var project = new Project("Finance");
+            project.AddToColumn1(new TextWidget { Name = "Title", Text = "Invoice Report" });
+            project.AddToColumn2(new NumericWidget { Name = "Amount", Value = 50 });
+            project.AddToColumn2(new NumericWidget { Name = "Salary", Value = 50 });
+            project.AddToColumn3(new NumericWidget { Name = "Amount", Value = 150 });
+            project.AddToColumn3(new NumericWidget { Name = "Salary", Value = 200 });
+            project.AddToColumn3(new NumericWidget { Name = "Amount", Value = 33 });
+            project.AddToColumn3(new NumericWidget { Name = "Salary", Value = 50 });
+            project.AddToColumn3(new NumericWidget { Name = "Amount", Value = 122 });
+
+            var filteredWidgets = ProjectFilterEvaluator.FilterWidgets(project, expression);
+
+            foreach (var widget in filteredWidgets)
+            {
+                Console.WriteLine($"{widget.Name}: {widget.GetValue()}");
+            }
         }
 
         private static void ExampleOfIterator()
