@@ -1,6 +1,7 @@
 ﻿using Command;
 using Command.Commands;
 using Domain;
+using Domain.Memento;
 using Domain.Widget;
 using FactoryMethod.Core;
 using Interpreter;
@@ -20,7 +21,24 @@ namespace FactoryMethod
             //await ExampleOfStrategyMethod();
             //await ExampleOfCommand();
             //ExampleOfIterator();
-            ExampleOfInterpreter();
+            //ExampleOfInterpreter();
+            ExampleOfMemento();
+        }
+
+        private static void ExampleOfMemento()
+        {
+            var widget = new TextWidget { Id = 1, Name = "w1", Text = "Initial" };
+            var history = new WidgetHistory();
+
+            history.Save(widget); 
+
+            widget.Text = "Changed"; 
+            history.Save(widget);    
+
+            widget.Text = "Broken";
+            history.Undo(widget);   
+            history.Undo(widget);   
+
         }
 
         private static void ExampleOfInterpreter()

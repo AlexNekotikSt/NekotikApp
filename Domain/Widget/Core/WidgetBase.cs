@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using Domain.Memento;
+using System.Xml.Serialization;
 
 namespace Domain.Widget
 {
@@ -7,7 +8,7 @@ namespace Domain.Widget
     [XmlInclude(typeof(NumericWidget))]
     [XmlInclude(typeof(PictureWidget))]
     [XmlInclude(typeof(DateWidget))]
-    public abstract class WidgetBase : ICloneable
+    public abstract class WidgetBase : ICloneable, IMemento
     {
         public int Id { get; set; }
 
@@ -23,5 +24,27 @@ namespace Domain.Widget
         {
             return MemberwiseClone();
         }
+
+        public WidgetMemento CreateSnapshot()
+        {
+            return new WidgetMemento(this);
+        }
+
+        public void Restore(WidgetMemento memento)
+        {
+            if (memento.Snapshot.GetType() != GetType())
+                throw new InvalidOperationException("Cannot restore a widget of different type.");
+
+            var restored = memento.Snapshot;
+
+            Id = restored.Id;
+            Name = restored.Name;
+            Column = restored.Column;
+            Order = restored.Order;
+
+            RestoreInternal(restored);
+        }
+
+        protected abstract void RestoreInternal(WidgetBase from);
     }
 }

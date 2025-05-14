@@ -10,5 +10,13 @@ namespace Domain.Widget
         {
             return string.Join(", ", Medias?.Select(m => m.Name));
         }
+
+        protected override void RestoreInternal(WidgetBase from)
+        {
+            if (from is FileWidget widget)
+            {
+                Medias = widget.Medias;
+            }
+        }
     }
 }

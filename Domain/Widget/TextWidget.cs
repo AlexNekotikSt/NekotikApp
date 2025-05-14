@@ -8,6 +8,13 @@
         {
             return Text;
         }
-    }
 
+        protected override void RestoreInternal(WidgetBase from)
+        {
+            if(from is  TextWidget widget)
+            {
+                Text = widget.Text;
+            }
+        }
+    }
 }

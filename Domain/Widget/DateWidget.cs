@@ -8,5 +8,13 @@
         {
             return Date.ToString("dd/MM/yyyy");
         }
+
+        protected override void RestoreInternal(WidgetBase from)
+        {
+            if(from is DateWidget widget)
+            {
+                Date = widget.Date;
+            }
+        }
     }
 }
