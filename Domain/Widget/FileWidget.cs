@@ -1,4 +1,5 @@
 ﻿using Domain.Media;
+using Visitor;
 
 namespace Domain.Widget
 {
@@ -17,6 +18,11 @@ namespace Domain.Widget
             {
                 Medias = widget.Medias;
             }
+        }
+
+        public override void Accept(IWidgetVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 }

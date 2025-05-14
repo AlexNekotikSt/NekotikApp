@@ -1,6 +1,7 @@
 ﻿using Command;
 using Command.Commands;
 using Domain;
+using Domain.Media;
 using Domain.Memento;
 using Domain.Widget;
 using FactoryMethod.Core;
@@ -10,6 +11,7 @@ using Iterator;
 using Strategy;
 using Strategy.Strategies;
 using System.Linq.Expressions;
+using Visitor;
 
 namespace FactoryMethod
 {
@@ -23,21 +25,50 @@ namespace FactoryMethod
             //ExampleOfIterator();
             //ExampleOfInterpreter();
             ExampleOfMemento();
+            ExampleOfVisitor();
         }
+
+        private static void ExampleOfVisitor()
+        {
+            var widgets = new List<WidgetBase>
+            {
+                new TextWidget { Text = "Hello world" },
+                new NumericWidget { Value = 42 },
+                new DateWidget { Date = DateTime.Today },
+                new FileWidget { Medias =
+                [
+                    new MediaModel {Name = "File1" },
+                    new MediaModel { Name = "File2" }
+                ] }
+            };
+
+            var visitor = new StatisticVisitor();
+
+            foreach (var widget in widgets)
+            {
+                widget.Accept(visitor);
+            }
+
+            Console.WriteLine($"Text symbols: {visitor.TextSymbolCount}");
+            Console.WriteLine($"Numeric sum: {visitor.NumericSum}");
+            Console.WriteLine($"Media files: {visitor.MediaFileCount}");
+            Console.WriteLine($"Earliest date: {visitor.MinDate}");
+        }
+
 
         private static void ExampleOfMemento()
         {
             var widget = new TextWidget { Id = 1, Name = "w1", Text = "Initial" };
             var history = new WidgetHistory();
 
-            history.Save(widget); 
+            history.Save(widget);
 
-            widget.Text = "Changed"; 
-            history.Save(widget);    
+            widget.Text = "Changed";
+            history.Save(widget);
 
             widget.Text = "Broken";
-            history.Undo(widget);   
-            history.Undo(widget);   
+            history.Undo(widget);
+            history.Undo(widget);
 
         }
 
@@ -77,7 +108,7 @@ namespace FactoryMethod
             project.AddToColumn1(new PictureWidget { Id = 4, Name = "Picture Widget 1" });
 
 
-            foreach(var widget in project)
+            foreach (var widget in project)
             {
                 Console.WriteLine($"Widget: {widget.Name}, Type: {widget.GetType().Name}");
             }

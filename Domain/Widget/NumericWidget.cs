@@ -1,4 +1,6 @@
-﻿namespace Domain.Widget
+﻿using Visitor;
+
+namespace Domain.Widget
 {
     public class NumericWidget : WidgetBase
     {
@@ -15,6 +17,11 @@
             {
                 Value = widget.Value;
             }
+        }
+
+        public override void Accept(IWidgetVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 

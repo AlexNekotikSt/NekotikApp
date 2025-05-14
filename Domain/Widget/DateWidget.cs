@@ -1,8 +1,15 @@
-﻿namespace Domain.Widget
+﻿using Visitor;
+
+namespace Domain.Widget
 {
     public class DateWidget : WidgetBase
     {
         public DateTime Date { get; set; }
+
+        public override void Accept(IWidgetVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
 
         public override string GetValue()
         {

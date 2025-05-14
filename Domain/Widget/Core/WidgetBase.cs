@@ -1,5 +1,6 @@
 ﻿using Domain.Memento;
 using System.Xml.Serialization;
+using Visitor;
 
 namespace Domain.Widget
 {
@@ -46,5 +47,7 @@ namespace Domain.Widget
         }
 
         protected abstract void RestoreInternal(WidgetBase from);
+
+        public abstract void Accept(IWidgetVisitor visitor);
     }
 }
