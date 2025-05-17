@@ -1,4 +1,5 @@
 ﻿using Domain.Memento;
+using System.Text.Json.Serialization;
 using System.Xml.Serialization;
 using Visitor;
 
@@ -9,6 +10,12 @@ namespace Domain.Widget
     [XmlInclude(typeof(NumericWidget))]
     [XmlInclude(typeof(PictureWidget))]
     [XmlInclude(typeof(DateWidget))]
+
+    [JsonDerivedType(typeof(TextWidget), "TextWidget")]
+    [JsonDerivedType(typeof(FileWidget), "FileWidget")]
+    [JsonDerivedType(typeof(NumericWidget), "NumericWidget")]
+    [JsonDerivedType(typeof(PictureWidget), "PictureWidget")]
+    [JsonDerivedType(typeof(DateWidget), "DateWidget")]
     public abstract class WidgetBase : ICloneable, IMemento
     {
         public int Id { get; set; }
