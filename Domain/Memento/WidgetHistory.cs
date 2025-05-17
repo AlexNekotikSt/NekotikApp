@@ -2,11 +2,17 @@
 
 namespace Domain.Memento
 {
-    public class WidgetHistory
+    public interface IWidgetHistoryManager
+    {
+        void SaveState(WidgetBase widget);
+        void Undo(WidgetBase widget);
+    }
+
+    public class WidgetHistory : IWidgetHistoryManager
     {
         private readonly Stack<WidgetMemento> _history = new();
 
-        public void Save(WidgetBase widget)
+        public void SaveState(WidgetBase widget)
         {
             _history.Push(widget.CreateSnapshot());
         }

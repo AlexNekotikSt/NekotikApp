@@ -17,9 +17,12 @@ namespace Visitor
         public DateTime? MinDate { get; private set; }
         public DateTime? MaxDate { get; private set; }
 
+        public int Count { get; private set; }
+
         public void Visit(TextWidget widget)
         {
             TextWidgetCount++;
+            Count++;
             if (!string.IsNullOrEmpty(widget.Text))
                 TextSymbolCount += widget.Text.Length;
         }
@@ -27,12 +30,14 @@ namespace Visitor
         public void Visit(NumericWidget widget)
         {
             NumericWidgetCount++;
+            Count++;
             NumericSum += widget.Value;
         }
 
         public void Visit(FileWidget widget)
         {
             FileWidgetCount++;
+            Count++;
             MediaFileCount += widget.Medias?.Count ?? 0;
         }
 
@@ -44,6 +49,7 @@ namespace Visitor
         public void Visit(DateWidget widget)
         {
             DateWidgetCount++;
+            Count++;
 
             if (MinDate == null || widget.Date < MinDate)
                 MinDate = widget.Date;
@@ -63,6 +69,26 @@ namespace Visitor
             DateWidgetCount = 0;
             MinDate = null;
             MaxDate = null;
+        }
+
+        public StatisticsResult GetStatistics()
+        {
+            return new StatisticsResult
+            {
+                TotalWidgets = Count,
+                Metrics = new Dictionary<string, object>
+                {
+                    {"TextWidgetCount", TextWidgetCount },
+                    {"TextSymbolCount", TextSymbolCount },
+                    {"NumericWidgetCount", NumericWidgetCount },
+                    {"NumericSum", NumericSum },
+                    {"FileWidgetCount", FileWidgetCount },
+                    {"MediaFileCount", MediaFileCount },
+                    {"DateWidgetCount", DateWidgetCount },
+                    {"MinDate", MinDate },
+                    {"MaxDate", MaxDate },
+                }
+            };
         }
     }
 }

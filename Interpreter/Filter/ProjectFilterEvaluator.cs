@@ -9,7 +9,6 @@ namespace Interpreter
         {
             var result = new List<WidgetBase>();
 
-
             foreach(var widget in project)
             {
                 var context = new Dictionary<string, WidgetBase> { { widget.Name, widget } };
@@ -21,7 +20,17 @@ namespace Interpreter
 
             return result;
         }
+
+        public static IEnumerable<WidgetBase> FilterWidgets(IEnumerable<WidgetBase> widgets, IExpression expression)
+        {
+            foreach (var widget in widgets)
+            {
+                var context = new Dictionary<string, WidgetBase> { { widget.Name, widget } };
+                if (expression.Interpret(context))
+                {
+                    yield return widget;
+                }
+            }
+        }
     }
-
-
 }

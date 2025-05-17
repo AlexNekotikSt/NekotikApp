@@ -4,6 +4,7 @@ using Domain;
 using Domain.Media;
 using Domain.Memento;
 using Domain.Widget;
+using Facade;
 using FactoryMethod.Core;
 using Interpreter;
 using Interpreter.Parser;
@@ -24,10 +25,56 @@ namespace FactoryMethod
             //await ExampleOfCommand();
             //ExampleOfIterator();
             //ExampleOfInterpreter();
-            ExampleOfMemento();
-            ExampleOfVisitor();
+            //ExampleOfMemento();
+            //ExampleOfVisitor();
+            await ExampleOfFacade();
         }
 
+        private static async Task ExampleOfFacade()
+        {
+            var facade = new WidgetFacadeService();
+            var widgets = new List<WidgetBase>
+            {
+                new TextWidget { Name = "Title", Text = "Invoice Report" },
+                new NumericWidget { Name = "Amount", Value = 50 },
+                new NumericWidget { Name = "Salary", Value = 50 },
+                new NumericWidget { Name = "Amount", Value = 150 },
+                new NumericWidget { Name = "Salary", Value = 200 },
+                new NumericWidget { Name = "Amount", Value = 33 },
+                new NumericWidget { Name = "Salary", Value = 50 },
+                new NumericWidget { Name = "Amount", Value = 122 }
+            };
+
+            var textWidget = new TextWidget { Id = 1, Name = "ExampleWidget", Text = "Hello, Facade!" };
+
+            if (!facade.ApplyValidation(textWidget))
+            {
+                Console.WriteLine("Віджет не пройшов валідацію.");
+                return;
+            }
+
+            await facade.Save(textWidget);
+            Console.WriteLine("Віджет збережено.");
+
+            widgets.Add(textWidget);
+
+            var stats = facade.GetStatistics(widgets);
+            Console.WriteLine($"Загальна кількість віджетів: {stats.TotalWidgets}");
+
+            var filtered = facade.Filter(widgets, "Title contains 'invoice' OR Amount > 100 OR Name contains 'Salary'");
+            Console.WriteLine($"Кількість відфільтрованих: {filtered.Count()}");
+
+            var exportJson = facade.Export(widgets);
+            Console.WriteLine("Експорт у JSON:");
+            Console.WriteLine(exportJson);
+
+            var clone = facade.Clone(textWidget);
+            Console.WriteLine($"Клоновано віджет з Id={clone.Id}, Name={clone.Name}");
+
+            facade.UndoChanges(textWidget);
+            Console.WriteLine("Відкат змін виконано.");
+        }
+        
         private static void ExampleOfVisitor()
         {
             var widgets = new List<WidgetBase>
@@ -61,10 +108,10 @@ namespace FactoryMethod
             var widget = new TextWidget { Id = 1, Name = "w1", Text = "Initial" };
             var history = new WidgetHistory();
 
-            history.Save(widget);
+            history.SaveState(widget);
 
             widget.Text = "Changed";
-            history.Save(widget);
+            history.SaveState(widget);
 
             widget.Text = "Broken";
             history.Undo(widget);
