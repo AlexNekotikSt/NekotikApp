@@ -9,6 +9,7 @@ using FactoryMethod.Core;
 using Interpreter;
 using Interpreter.Parser;
 using Iterator;
+using Proxy;
 using Strategy;
 using Strategy.Strategies;
 using System.Linq.Expressions;
@@ -27,7 +28,31 @@ namespace FactoryMethod
             //ExampleOfInterpreter();
             //ExampleOfMemento();
             //ExampleOfVisitor();
-            await ExampleOfFacade();
+
+            //await ExampleOfFacade();
+            await ExampleOfProxy();
+        }
+
+        private static async Task ExampleOfProxy()
+        {
+            IWidgetService service = new RealWidgetService();
+            service = new AuthProxy(service, new ConsoleUserContext());
+            service = new CacheProxy(service, TimeSpan.FromSeconds(30));
+            service = new LoggingProxy(service, new ConsoleLogger());
+
+            var widget = new TextWidget { Id = 1, Name = "Sample", Text = "Hello World" };
+
+            try
+            {
+                await service.SaveAsync(widget);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            var all = await service.GetAllAsync();
+            Console.WriteLine($"Widgets count: {all.Count()}");
         }
 
         private static async Task ExampleOfFacade()
